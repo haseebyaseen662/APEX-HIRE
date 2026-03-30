@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Elena Vance Avatar</title>
+  <desc id="desc">Abstract avatar with initials EV</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#2563eb" />
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="48" fill="url(#bg)" />
+  <circle cx="80" cy="58" r="26" fill="#ecfeff" fill-opacity="0.95" />
+  <path d="M36 136c8-23 25-37 44-37s36 14 44 37" fill="#ecfeff" fill-opacity="0.95" />
+  <text x="80" y="149" fill="#ffffff" font-family="Arial, sans-serif" font-size="22" font-weight="700" text-anchor="middle">EV</text>
+</svg>

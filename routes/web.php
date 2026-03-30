@@ -2,15 +2,28 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
+use App\Http\Controllers\Employer\DashboardController;
+use App\Http\Controllers\Employer\JobController;
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('/', [WebsiteController::class, 'home'])->name('home');
-    Route::get('/about', [WebsiteController::class, 'about'])->name('about');
-    Route::get('/contact', [WebsiteController::class, 'contact'])->name('contact');
-    Route::get('/success-stories', [WebsiteController::class, 'success'])->name('success');
-    Route::get('/browse-jobs', [WebsiteController::class, 'browse'])->name('browse');
-    Route::get('/privacy-policy', [WebsiteController::class, 'privacy'])->name('privacy');
-    Route::get('/terms-condition', [WebsiteController::class, 'terms'])->name('terms');
+Route::get('/', [WebsiteController::class, 'home'])->name('home');
+Route::get('/about', [WebsiteController::class, 'about'])->name('about');
+Route::get('/contact', [WebsiteController::class, 'contact'])->name('contact');
+Route::get('/success-stories', [WebsiteController::class, 'success'])->name('success');
+Route::get('/browse-jobs', [WebsiteController::class, 'browse'])->name('browse');
+Route::get('/privacy-policy', [WebsiteController::class, 'privacy'])->name('privacy');
+Route::get('/terms-condition', [WebsiteController::class, 'terms'])->name('terms');
+
+Route::middleware(['auth', 'role:employer'])->name('employer.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/account', [DashboardController::class, 'account'])->name('account');
+    Route::get('/teams', [DashboardController::class, 'team'])->name('team');
+    Route::get('/schedule-interview', [DashboardController::class, 'interview'])->name('schedule-interview');
+    Route::get('/jobs', [JobController::class, 'index'])->name('job-list');
+    Route::get('/jobs/create', [JobController::class, 'create'])->name('job-create');
 });
 
+Route::get('/logout', function () {
+    auth()->logout();
+    return redirect('/');
+});
 require __DIR__.'/auth.php';

@@ -1,11 +1,22 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+const tailwindConfig = {
   content: ["./*.html", "./assets/js/**/*.js"],
   darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: "#d941f2",
+        primary: "#b62dd6",
+        secondary: "#7b5df7",
+        tertiary: "#705d00",
+        error: "#ba1a1a",
+        outline: "#847183",
+        background: "#f8f9fa",
+        surface: "#f8f9fa",
+        "on-primary": "#ffffff",
+        "on-secondary": "#ffffff",
+        "on-tertiary": "#ffffff",
+        "on-error": "#ffffff",
+        "on-background": "#191c1d",
+        "on-surface": "#191c1d",
         "primary-dark": "#b02ec5",
         "primary-light": "#fce9fe",
         "primary-content": "#ffffff",
@@ -18,18 +29,61 @@ module.exports = {
         "text-main": "#171118",
         "text-muted": "#846189",
         "border-light": "#e4dbe6",
-        "border-dark": "#4a3550"
+        "border-dark": "#4a3550",
+        "primary-container": "#c123db",
+        "on-primary-fixed": "#35003f",
+        "on-error-container": "#93000a",
+        "secondary-fixed-dim": "#faabff",
+        "primary-fixed": "#ffd6fe",
+        "surface-container-highest": "#e1e3e4",
+        "secondary-fixed": "#ffd6fe",
+        "surface-tint": "#a200bb",
+        "surface-container": "#edeeef",
+        "tertiary-container": "#c6a92e",
+        "primary-fixed-dim": "#faabff",
+        "on-tertiary-fixed-variant": "#544600",
+        "inverse-on-surface": "#f0f1f2",
+        "error-container": "#ffdad6",
+        "surface-variant": "#e1e3e4",
+        "on-secondary-container": "#782b84",
+        "inverse-primary": "#faabff",
+        "tertiary-fixed-dim": "#e4c548",
+        "on-tertiary-fixed": "#221b00",
+        "surface-container-low": "#f3f4f5",
+        "surface-dim": "#d9dadb",
+        "on-secondary-fixed": "#35003f",
+        "tertiary-fixed": "#ffe170",
+        "surface-container-lowest": "#ffffff",
+        "on-surface-variant": "#524152",
+        "on-primary-fixed-variant": "#7c008f",
+        "surface-container-high": "#e7e8e9",
+        "on-secondary-fixed-variant": "#71247d",
+        "inverse-surface": "#2e3132",
+        "on-primary-container": "#fffbff",
+        "on-tertiary-container": "#4c3e00",
+        "outline-variant": "#d7c0d4",
       },
       fontFamily: {
-        display: ["Sora", "sans-serif"]
+        display: ["Sora", "sans-serif"],
+        headline: ["Plus Jakarta Sans"],
+        body: ["Plus Jakarta Sans"],
+        label: ["Plus Jakarta Sans"],
       },
       borderRadius: {
-        DEFAULT: "0.5rem",
-        lg: "1rem",
-        xl: "1.5rem",
-        full: "9999px"
-      }
-    }
+        DEFAULT: "1rem",
+        lg: "2rem",
+        xl: "3rem",
+        full: "9999px",
+      },
+    },
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")]
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/container-queries")],
 };
+
+if (typeof tailwind !== "undefined") {
+  tailwind.config = tailwindConfig;
+}
+
+if (typeof module !== "undefined") {
+  module.exports = tailwindConfig;
+}
