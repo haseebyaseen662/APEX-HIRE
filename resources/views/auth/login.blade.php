@@ -63,8 +63,11 @@
         <div class="pl-4 text-slate-400 dark:text-slate-500">
         <i class="bx bx-envelope text-[20px]"></i>
         </div>
-        <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="name@example.com" type="email"/>
+        <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="name@example.com" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"/>
         </div>
+        @error('email')
+        <p class="text-sm font-medium text-red-500">{{ $message }}</p>
+        @enderror
         </div>
         <!-- Password Field -->
         <div class="flex flex-col gap-1.5">
@@ -76,11 +79,14 @@
         <div class="pl-4 text-slate-400 dark:text-slate-500">
         <i class="bx bx-lock text-[20px]"></i>
         </div>
-        <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="Enter your password" type="password"/>
+        <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="Enter your password" type="password" name="password" required autocomplete="current-password"/>
         <button class="pr-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" type="button" data-toggle-password>
         <i class="bx bx-hide text-[20px]"></i>
         </button>
         </div>
+        @error('password')
+        <p class="text-sm font-medium text-red-500">{{ $message }}</p>
+        @enderror
         </div>
         <button class="mt-2 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20" type="submit">
         <span class="truncate">Log In</span>
