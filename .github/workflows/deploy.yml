@@ -1,0 +1,43 @@
+name: Deploy to Shared Hosting via SSH
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 21098
+          source: "./"
+          target: "/home/techzdsg/apex.techsops.com"
+
+      - name: Install Dependencies & Run Migrations
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 21098
+          script: |
+            cd /home/techzdsg/apex.techsops.com
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan db:seed
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan config:cache
+
+            # Delete unnecessary directories
+            rm -rf .git .github .vite
