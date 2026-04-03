@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ResetPasswordMail;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
@@ -15,7 +21,25 @@ class PasswordResetLinkController extends Controller
      */
     public function create(): View
     {
-        return view('auth.forgot-password');
+        $email = session('password_reset_email');
+        $cooldownRemaining = 0;
+
+        if ($email) {
+            $lastSentAt = Cache::get('password_reset_last_sent_at:'.mb_strtolower($email))
+                ?? session('password_reset_last_sent_at');
+
+            if ($lastSentAt) {
+                $cooldownRemaining = max(
+                    0,
+                    60 - Carbon::createFromTimestamp((int) $lastSentAt)->diffInSeconds(now())
+                );
+            }
+        }
+
+        return view('auth.forgot-password', [
+            'cooldownRemaining' => $cooldownRemaining,
+            'email' => $email,
+        ]);
     }
 
     /**
@@ -29,16 +53,39 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $email = mb_strtolower($request->string('email')->trim()->value());
+        $cacheKey = 'password_reset_last_sent_at:'.$email;
+        $lastSentAt = Cache::get($cacheKey);
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                        ->withErrors(['email' => __($status)]);
+        if ($lastSentAt) {
+            $secondsSinceLastSend = Carbon::createFromTimestamp((int) $lastSentAt)->diffInSeconds(now());
+
+            if ($secondsSinceLastSend < 60) {
+                $request->session()->put('password_reset_email', $email);
+                $request->session()->put('password_reset_last_sent_at', (int) $lastSentAt);
+
+                return back()->with('status', 'password-reset-link-cooldown');
+            }
+        }
+
+        $user = User::where('email', $email)->first();
+
+        if ($user) {
+            $token = Password::broker()->createToken($user);
+            $resetUrl = URL::route('password.reset', [
+                'token' => $token,
+                'email' => $user->email,
+            ]);
+
+            Mail::to($user->email)->queue(new ResetPasswordMail($user, $resetUrl));
+        }
+
+        $timestamp = now()->timestamp;
+
+        Cache::put($cacheKey, $timestamp, now()->addDay());
+        $request->session()->put('password_reset_email', $email);
+        $request->session()->put('password_reset_last_sent_at', $timestamp);
+
+        return back()->with('status', 'password-reset-link-sent');
     }
 }

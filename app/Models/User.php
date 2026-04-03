@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Company;
 use App\Models\JobSeekerProfile;
+use App\Models\PasswordHistory;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -57,5 +58,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function jobSeekerProfile()
     {
         return $this->hasOne(JobSeekerProfile::class);
+    }
+
+    public function passwordHistories()
+    {
+        return $this->hasMany(PasswordHistory::class)->latest();
     }
 }

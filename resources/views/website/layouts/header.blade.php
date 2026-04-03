@@ -40,7 +40,7 @@
           </details>
         @else
           <a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-wide shadow-lg shadow-primary/30" href="{{ route('register') }}">
-            <span class="truncate">Post a Job</span>
+            <span class="truncate">Sign Up</span>
           </a>
           <a class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-primary-light hover:bg-neutral-light dark:bg-neutral-dark dark:hover:bg-neutral-dark/80 transition-colors text-primary dark:text-white text-sm font-bold leading-normal tracking-[0.015em]" href="{{ route('login') }}">
             <span class="truncate">Log In</span>

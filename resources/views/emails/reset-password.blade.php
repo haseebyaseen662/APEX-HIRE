@@ -9,11 +9,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
-    <title>Verify Your Email</title>
+    <title>Reset Your Password</title>
 </head>
 <body style="margin:0; padding:0; background-color:#ffffff; font-family:'Sora', Arial, Helvetica, -apple-system, BlinkMacSystemFont, sans-serif; color:#0f172a;">
     <div style="display:none; overflow:hidden; line-height:1px; opacity:0; max-height:0; max-width:0;">
-        Confirm your email to activate your Apex Hire account.
+        Reset your Apex Hire password with the secure link inside this email.
     </div>
 
     <table border="0" width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center" style="background-color:#ffffff;">
@@ -36,7 +36,7 @@
                             <tr>
                                 <td align="center" style="padding-bottom:16px;">
                                     <h1 style="margin:0; font-size:30px; line-height:1.25; font-weight:700; color:#0f172a;">
-                                        Verify Your Email
+                                        Reset Your Password
                                     </h1>
                                 </td>
                             </tr>
@@ -44,7 +44,7 @@
                             <tr>
                                 <td align="center" style="padding-bottom:28px;">
                                     <p style="margin:0; max-width:460px; font-size:15px; line-height:1.8; color:#475569; text-align:center;">
-                                        Please confirm your email address to activate your Apex Hire account and continue using the platform.
+                                        We received a request to reset your Apex Hire password. Use the button below to choose a new password.
                                     </p>
                                 </td>
                             </tr>
@@ -52,12 +52,12 @@
                             <tr>
                                 <td align="center" style="padding-bottom:28px;">
                                     <a
-                                        href="{{ $verificationUrl }}"
+                                        href="{{ $resetUrl }}"
                                         target="_blank"
                                         rel="noopener noreferrer nofollow"
                                         style="display:inline-block; padding:14px 28px; background-color:#d946ef; color:#ffffff; text-decoration:none; font-size:15px; font-weight:700; border-radius:999px;"
                                     >
-                                        Verify Email
+                                        Reset Password
                                     </a>
                                 </td>
                             </tr>
@@ -65,7 +65,7 @@
                             <tr>
                                 <td align="center" style="padding-bottom:10px;">
                                     <p style="margin:0; font-size:14px; line-height:1.8; color:#64748b; text-align:center;">
-                                        If the button does not work, click this verification link:
+                                        If the button does not work, click this reset link:
                                     </p>
                                 </td>
                             </tr>
@@ -73,13 +73,21 @@
                             <tr>
                                 <td align="center" style="padding-bottom:36px;">
                                     <a
-                                        href="{{ $verificationUrl }}"
+                                        href="{{ $resetUrl }}"
                                         target="_blank"
                                         rel="noopener noreferrer nofollow"
                                         style="color:#d946ef; font-size:13px; line-height:1.8; word-break:break-all; text-decoration:underline;"
                                     >
-                                        {{ $verificationUrl }}
+                                        {{ $resetUrl }}
                                     </a>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td align="center" style="padding-bottom:18px;">
+                                    <p style="margin:0; font-size:13px; line-height:1.8; color:#64748b; text-align:center;">
+                                        This password reset link will expire in {{ config('auth.passwords.'.config('auth.defaults.passwords').'.expire', 60) }} minutes.
+                                    </p>
                                 </td>
                             </tr>
 

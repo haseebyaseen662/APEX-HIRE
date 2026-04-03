@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap"/>
   <link rel="stylesheet" href="{{ asset('website/assets/css/theme.css') }}"/>
   <script src="{{ asset('website/assets/js/main.js') }}" defer></script>
+<style>
+    .field-error-text {
+        color: #ef4444 !important;
+    }
+</style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased flex flex-col min-h-screen">
 <!-- Top Navigation -->
@@ -37,22 +42,14 @@
                                 Log in to continue your job search journey.
                             </h2>
         </div>
-        <!-- Social Login Buttons -->
-        <div class="flex flex-col gap-4">
-        <a class="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors" href="{{ route('browse') }}" role="button">
-        <img alt="Google Logo" class="h-5 w-5" data-alt="Google logo icon" src="{{ asset('website/assets/images/logo-google.png') }}"/>
-        <span class="text-slate-700 dark:text-slate-200 font-medium">Sign in with Google</span>
-        </a>
-        <a class="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors" href="{{ route('browse') }}" role="button">
-        <img alt="LinkedIn Logo" class="h-5 w-5" data-alt="LinkedIn logo icon" src="{{ asset('website/assets/images/logo-linkedin.png') }}"/>
-        <span class="text-slate-700 dark:text-slate-200 font-medium">Sign in with LinkedIn</span>
-        </a>
+        @if (session('status'))
+        <div
+        class="rounded-xl px-4 py-3 text-sm font-medium"
+        style="border: 1px solid #bbf7d0; background-color: #f0fdf4; color: #15803d;"
+        >
+        {{ session('status') }}
         </div>
-        <div class="relative flex py-2 items-center">
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span class="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-sm">Or continue with email</span>
-        <div class="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        </div>
+        @endif
         <!-- Email Login Form -->
         <form class="flex flex-col gap-5" action="{{ route('login') }}" method="POST">
         @csrf
@@ -66,7 +63,7 @@
         <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="name@example.com" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"/>
         </div>
         @error('email')
-        <p class="text-sm font-medium text-red-500">{{ $message }}</p>
+        <p class="field-error-text text-sm font-medium">{{ $message }}</p>
         @enderror
         </div>
         <!-- Password Field -->
@@ -85,7 +82,7 @@
         </button>
         </div>
         @error('password')
-        <p class="text-sm font-medium text-red-500">{{ $message }}</p>
+        <p class="field-error-text text-sm font-medium">{{ $message }}</p>
         @enderror
         </div>
         <button class="mt-2 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg shadow-primary/20" type="submit">

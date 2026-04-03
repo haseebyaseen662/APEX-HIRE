@@ -34,21 +34,61 @@
 
             <p class="mt-4 max-w-xl text-sm leading-7 text-slate-500 dark:text-slate-400 sm:text-base">
                 We sent a verification link to
-                <span class="break-all font-bold text-slate-700 dark:text-slate-200">{{ auth()->user()->email }}</span>.
+                <span class="break-all font-bold text-slate-700 dark:text-slate-200">{{ $email }}</span>.
                 Please open your inbox and click the link to verify your Apex Hire account.
             </p>
 
+            @if (session('status') === 'registration-success')
+                <p
+                    class="mt-8 w-full max-w-xl rounded-xl px-4 py-3 text-sm font-semibold"
+                    style="border: 1px solid #bbf7d0; background-color: #f0fdf4; color: #15803d;"
+                >
+                    Your account has been created. Please verify your email to continue.
+                </p>
+            @endif
+
+            @if (session('status') === 'unverified-login')
+                <p
+                    class="mt-8 w-full max-w-xl rounded-xl px-4 py-3 text-sm font-semibold"
+                    style="border: 1px solid #fecaca; background-color: #fef2f2; color: #b91c1c;"
+                >
+                    Your account is not verified yet. Please verify your email before logging in.
+                </p>
+            @endif
+
             @if (session('status') === 'verification-link-sent')
-                <p class="mt-8 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                <p
+                    class="mt-8 w-full max-w-xl rounded-xl px-4 py-3 text-sm font-semibold"
+                    style="border: 1px solid #bbf7d0; background-color: #f0fdf4; color: #15803d;"
+                >
                     A fresh verification link has been sent to your email address.
+                </p>
+            @endif
+
+            @if (session('status') === 'verification-link-cooldown')
+                <p
+                    class="mt-8 w-full max-w-xl rounded-xl px-4 py-3 text-sm font-semibold"
+                    style="border: 1px solid #fed7aa; background-color: #fff7ed; color: #c2410c;"
+                >
+                    Please wait for the cooldown to finish before requesting another verification email.
                 </p>
             @endif
 
             <div class="mt-12 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
                 <form class="w-full sm:w-auto sm:flex-none" method="POST" action="{{ route('verification.send') }}">
                     @csrf
-                    <button class="inline-flex h-11 w-full items-center justify-center rounded-full bg-primary px-5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/20 sm:w-auto" type="submit">
-                        Resend Verification Email
+                    <button
+                        class="inline-flex h-11 w-full items-center justify-center rounded-full px-5 text-sm font-bold text-white transition-all focus:outline-none focus:ring-4 sm:w-auto"
+                        type="submit"
+                        data-resend-button
+                        data-cooldown="{{ $cooldownRemaining }}"
+                        data-active-class="bg-primary shadow-lg shadow-primary/20 hover:bg-primary/90 focus:ring-primary/20"
+                        @disabled($cooldownRemaining > 0)
+                        style="{{ $cooldownRemaining > 0 ? 'background-color: #6b7280; border: 1px solid #6b7280; color: #ffffff; box-shadow: none; cursor: not-allowed;' : '' }}"
+                    >
+                        <span data-default-label="{{ $cooldownRemaining > 0 ? 'Resend in '.$cooldownRemaining.'s' : 'Resend Verification Email' }}">
+                            {{ $cooldownRemaining > 0 ? 'Resend in '.$cooldownRemaining.'s' : 'Resend Verification Email' }}
+                        </span>
                     </button>
                 </form>
 
@@ -58,5 +98,57 @@
             </div>
         </div>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const button = document.querySelector('[data-resend-button]');
+
+            if (!button) {
+                return;
+            }
+
+            const label = button.querySelector('span');
+            let remaining = Math.max(0, Math.ceil(Number(button.dataset.cooldown || 0)));
+            const activeClasses = (button.dataset.activeClass || '').split(' ').filter(Boolean);
+
+            const render = () => {
+                if (remaining > 0) {
+                    button.disabled = true;
+                    button.classList.remove(...activeClasses);
+                    button.style.backgroundColor = '#6b7280';
+                    button.style.border = '1px solid #6b7280';
+                    button.style.color = '#ffffff';
+                    button.style.boxShadow = 'none';
+                    button.style.cursor = 'not-allowed';
+                    label.textContent = `Resend in ${Math.ceil(remaining)}s`;
+                    return;
+                }
+
+                button.disabled = false;
+                button.classList.add(...activeClasses);
+                button.style.backgroundColor = '';
+                button.style.border = '';
+                button.style.color = '';
+                button.style.boxShadow = '';
+                button.style.cursor = '';
+                label.textContent = 'Resend Verification Email';
+            };
+
+            render();
+
+            if (remaining <= 0) {
+                return;
+            }
+
+            const interval = window.setInterval(() => {
+                remaining -= 1;
+                render();
+
+                if (remaining <= 0) {
+                    window.clearInterval(interval);
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>

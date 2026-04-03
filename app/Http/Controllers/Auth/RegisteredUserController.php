@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\RegisterUserService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use App\Events\UserRegistered;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class RegisteredUserController extends Controller
 {
@@ -21,14 +22,21 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    public function store(RegisterRequest $request)
+    public function store(RegisterRequest $request): RedirectResponse
     {
         $user = $this->service->handle($request->validated(), $request);
 
-        Auth::login($user);
-
         event(new UserRegistered($user));
 
-        return redirect()->route('verification.notice');
+        $request->session()->put('verification_email', $user->email);
+        $request->session()->put('verification_email_last_sent_at', Carbon::now()->timestamp);
+        Cache::put(
+            'verification_email_last_sent_at:'.$user->email,
+            Carbon::now()->timestamp,
+            now()->addDay()
+        );
+
+        return redirect()->route('verification.notice')
+            ->with('status', 'registration-success');
     }
 }

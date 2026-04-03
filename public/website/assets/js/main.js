@@ -1,13 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const resetForm = document.querySelector("#reset-password-form");
-  if (resetForm) {
-    resetForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const target = resetForm.getAttribute("action") || "login.html";
-      window.location.href = target;
-    });
-  }
-
   const toggleButtons = document.querySelectorAll("[data-toggle-password]");
   toggleButtons.forEach((button) => {
     button.addEventListener("click", () => {
