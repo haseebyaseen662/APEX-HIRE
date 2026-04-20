@@ -57,12 +57,12 @@
 <div class="flex flex-col gap-1.5">
 <label class="text-slate-900 dark:text-white text-sm font-medium leading-normal" for="new-password">New Password</label>
 <div class="flex w-full items-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden h-12 transition-all" data-field-wrapper="new-password">
-<div class="pl-4 text-slate-400 dark:text-slate-500">
-<i class="bx bx-lock text-[20px]"></i>
+<div class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 dark:text-slate-500 leading-none">
+<i class="bx bx-lock block text-[20px] leading-none"></i>
 </div>
 <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" data-label="Password" data-rules="required|min:8" id="new-password" name="password" placeholder="Enter your password" type="password"/>
-<button class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300" type="button" data-toggle-password>
-<i class="bx bx-hide block leading-none" style="font-size: 20px;"></i>
+<button class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 leading-none" type="button" data-toggle-password>
+<i class="bx bx-hide block text-[20px] leading-none"></i>
 </button>
 </div>
 <p class="field-error-text hidden text-sm font-medium" data-error="new-password"></p>
@@ -77,12 +77,12 @@
 <div class="flex flex-col gap-1.5">
 <label class="text-slate-900 dark:text-white text-sm font-medium leading-normal" for="confirm-password">Confirm Password</label>
 <div class="flex w-full items-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden h-12 transition-all" data-field-wrapper="confirm-password">
-<div class="pl-4 text-slate-400 dark:text-slate-500">
-<i class="bx bx-lock text-[20px]"></i>
+<div class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 dark:text-slate-500 leading-none">
+<i class="bx bx-lock block text-[20px] leading-none"></i>
 </div>
 <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" data-label="Confirm password" data-rules="required|matches:new-password" id="confirm-password" name="password_confirmation" placeholder="Re-enter your password" type="password"/>
-<button class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300" type="button" data-toggle-password>
-<i class="bx bx-hide block leading-none" style="font-size: 20px;"></i>
+<button class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 leading-none" type="button" data-toggle-password>
+<i class="bx bx-hide block text-[20px] leading-none"></i>
 </button>
 </div>
 <p class="field-error-text hidden text-sm font-medium" data-error="confirm-password"></p>

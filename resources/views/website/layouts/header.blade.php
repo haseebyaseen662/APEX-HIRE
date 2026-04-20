@@ -13,31 +13,79 @@
       </nav>
       <div class="flex items-center gap-2">
         @auth
-          <details class="relative">
-            <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center overflow-hidden rounded-full border border-primary/10 bg-white shadow-sm transition-transform hover:scale-[1.03] dark:border-white/10 dark:bg-slate-900">
-              <img src="{{ asset('employer/assets/images/avatar-employer.svg') }}" alt="User avatar" class="h-full w-full object-cover"/>
+          @php
+            $user = auth()->user();
+            $avatarUrl = asset('website/assets/images/default.png');
+
+            // Prefer job seeker profile picture when available.
+            $profile = $user?->jobSeekerProfile;
+            $profilePicture = $profile?->profile_picture ?? $user?->profile_picture;
+
+            if (!empty($profilePicture)) {
+              if (\Illuminate\Support\Str::startsWith($profilePicture, ['http://', 'https://'])) {
+                $avatarUrl = $profilePicture;
+              } elseif (\Illuminate\Support\Str::startsWith($profilePicture, ['/','storage/','website/','seeker/','uploads/'])) {
+                $avatarUrl = asset(ltrim($profilePicture, '/'));
+              } else {
+                // Assume it's stored on the public disk (e.g. via store(..., 'public')).
+                $avatarUrl = \Illuminate\Support\Facades\Storage::disk('public')->url($profilePicture);
+              }
+            }
+          @endphp
+
+          <details id="profile-menu" class="relative">
+            <summary class="flex h-9 w-9 cursor-pointer list-none items-center justify-center overflow-hidden rounded-full border border-primary/10 bg-white shadow-sm transition-transform hover:scale-[1.03] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+              <img
+                src="{{ $avatarUrl }}"
+                alt="User avatar"
+                class="h-full w-full object-cover"
+                onerror="this.onerror=null;this.src='{{ asset('website/assets/images/default.png') }}';"
+              />
             </summary>
 
-            <div class="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-2 shadow-[0_18px_50px_rgba(15,23,42,0.12)] dark:border-slate-700 dark:bg-slate-900">
-              <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold tracking-[0.02em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-primary dark:text-slate-200 dark:hover:bg-slate-800" href="{{ route('home') }}">
-                <i class="bx bx-user text-lg text-slate-400"></i>
-                <span>Profile</span>
-              </a>
+            <div class="absolute right-0 mt-2 w-72 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-900/10 ring-1 ring-black/5">
+              <div class="px-4 py-4">
+                <p class="text-sm font-semibold text-slate-900 leading-5">{{ $user->name }}</p>
+                <p class="mt-1 text-xs text-slate-500 truncate">{{ $user->email }}</p>
+              </div>
 
-              <a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold tracking-[0.02em] text-slate-700 transition-colors hover:bg-slate-50 hover:text-primary dark:text-slate-200 dark:hover:bg-slate-800" href="{{ route('contact') }}">
-                <i class="bx bx-help-circle text-lg text-slate-400"></i>
-                <span>Help</span>
-              </a>
+              <div class="border-t border-slate-100"></div>
 
-              <form method="POST" action="{{ route('logout') }}">
+              <div class="space-y-1 px-3 py-2">
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-primary" href="{{ route('home') }}">
+                  <i class="bx bx-grid-alt text-lg text-slate-400"></i>
+                  <span>Dashboard</span>
+                </a>
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-primary" href="#">
+                  <i class="bx bx-cog text-lg text-slate-400"></i>
+                  <span>Settings</span>
+                </a>
+                <a class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-primary" href="{{ route('contact') }}">
+                  <i class="bx bx-help-circle text-lg text-slate-400"></i>
+                  <span>Help</span>
+                </a>
+              </div>
+
+              <div class="border-t border-slate-100"></div>
+
+              <form class="px-3 py-3" method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button class="group flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold tracking-[0.02em] text-slate-700 transition-colors hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-800" type="submit">
-                  <i class="bx bx-log-out text-lg text-slate-400"></i>
-                  <span class="transition-colors group-hover:text-red-500">Logout</span>
-                </button>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 hover:text-red-600 text-left">
+                  <i class="bx bx-log-out text-lg text-slate-400 hover:text-red-600"></i>
+                  <span>Logout</span>
+                </a>
               </form>
             </div>
           </details>
+          <script>
+            document.addEventListener('click', function(event) {
+              const details = document.getElementById('profile-menu');
+              if (!details) return;
+              if (!details.contains(event.target)) {
+                details.removeAttribute('open');
+              }
+            });
+          </script>
         @else
           <a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-wide shadow-lg shadow-primary/30" href="{{ route('register') }}">
             <span class="truncate">Sign Up</span>

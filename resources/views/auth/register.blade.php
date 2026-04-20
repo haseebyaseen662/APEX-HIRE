@@ -144,8 +144,8 @@
                                     Email Address <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative">
-                                    <span class="absolute inset-y-0 left-3 flex items-center text-slate-400 pointer-events-none">
-                                        <i class="bx bx-envelope text-lg"></i>
+                                    <span class="absolute inset-y-0 left-3 flex items-center justify-center text-slate-400 pointer-events-none leading-none">
+                                        <i class="bx bx-envelope block text-[18px] leading-none"></i>
                                     </span>
                                     <input
                                         class="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 pl-10 text-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
@@ -172,8 +172,8 @@
                                         placeholder="Min. 8 characters"
                                         data-rules="required|min:8" data-label="Password"
                                     />
-                                    <button class="absolute right-0 top-0 h-full px-4 text-slate-400 hover:text-primary transition-colors flex items-center justify-center" type="button" data-toggle-password>
-                                        <i class="bx bx-hide text-[20px]"></i>
+                                    <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password>
+                                        <i class="bx bx-hide block text-[20px] leading-none"></i>
                                     </button>
                                 </div>
                                 <p class="text-xs text-red-500 hidden mt-1" data-error="password"></p>
@@ -194,8 +194,8 @@
                                         placeholder="Repeat your password"
                                         data-rules="required|matches:password" data-label="Confirm password"
                                     />
-                                    <button class="absolute right-0 top-0 h-full px-4 text-slate-400 hover:text-primary transition-colors flex items-center justify-center" type="button" data-toggle-password>
-                                        <i class="bx bx-hide text-[20px]"></i>
+                                    <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password>
+                                        <i class="bx bx-hide block text-[20px] leading-none"></i>
                                     </button>
                                 </div>
                                 <p class="text-xs text-red-500 hidden mt-1" data-error="password_confirmation"></p>
@@ -256,27 +256,6 @@
                                             data-rules="required|min:2" data-label="Location"
                                         />
                                         <p class="text-xs text-red-500 hidden mt-1" data-error="seekerLocation"></p>
-                                    </div>
-
-                                    <div class="space-y-1 md:col-span-2">
-                                        <input class="sr-only" id="resumeUpload" name="resume" type="file" accept="application/pdf"/>
-                                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                            Resume <span class="font-normal text-slate-400">(optional)</span>
-                                        </label>
-                                        <label class="mt-1 w-full border-2 border-dashed border-primary-container bg-slate-50 dark:bg-slate-900 rounded-lg p-4 flex items-center justify-between gap-4 transition-all hover:bg-primary-container/10 group cursor-pointer" for="resumeUpload">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                                    <i class="bx bx-upload text-xl text-primary"></i>
-                                                </div>
-                                                <div class="flex flex-col">
-                                                    <span class="text-sm font-bold" id="resume-filename">Upload your resume</span>
-                                                    <span class="text-xs text-slate-400">PDF only • Max 5MB</span>
-                                                </div>
-                                            </div>
-                                            <button class="shrink-0 px-4 py-2 bg-primary text-white rounded-full text-xs font-bold shadow-lg shadow-primary/20 hover:shadow-xl transition-all" type="button" data-file-trigger data-file-target="resumeUpload">
-                                                Browse Files
-                                            </button>
-                                        </label>
                                     </div>
 
                                 </div>
@@ -590,12 +569,6 @@
         });
 
         roleRadios.forEach(radio => radio.addEventListener('change', updateRoleSection));
-
-        // Show picked filename in the upload label
-        document.getElementById('resumeUpload')?.addEventListener('change', function () {
-            const el = document.getElementById('resume-filename');
-            if (el) el.textContent = this.files[0]?.name || 'Upload your resume';
-        });
 
         document.getElementById('logoUpload')?.addEventListener('change', function () {
             const el = document.getElementById('logo-filename');

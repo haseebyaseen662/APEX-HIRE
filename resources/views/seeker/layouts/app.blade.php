@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Employer Dashboard — Apex Hire</title>
+    <title>My Profile — Apex Hire</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -101,48 +101,52 @@
 
 <body class="bg-surface text-on-surface min-h-screen">
 
-    @include('employer.layouts.sidebar')
+    @include('seeker.layouts.sidebar')
 
-    @include('employer.layouts.header')
+    @include('website.layouts.header')
 
     @yield('content')
 
     <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-outline-variant/15 z-30">
-        <div class="flex justify-around items-center py-2.5 px-2">
+            <div class="flex justify-around items-center py-2.5 px-2">
 
-            <a href="{{ route('employer.dashboard') }}"
-               class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.dashboard') ? 'text-primary' : 'text-on-surface-variant' }}">
-                <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.dashboard') ? 'icon-fill' : '' }}">dashboard</span>
-                <span class="text-[9px] font-bold uppercase">Home</span>
-            </a>
+                <a href="{{ route('seeker.dashboard') }}"
+                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors
+                {{ request()->routeIs('seeker.dashboard') ? 'text-primary' : 'text-on-surface-variant' }}">
+                    <span class="material-symbols-outlined text-xl {{ request()->routeIs('seeker.dashboard') ? 'icon-fill' : '' }}">dashboard</span>
+                    <span class="text-[9px] font-bold uppercase">Home</span>
+                </a>
 
-            <a href="{{ route('employer.account') }}"
-               class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.account') ? 'text-primary' : 'text-on-surface-variant' }}">
-                <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.account') ? 'icon-fill' : '' }}">person</span>
-                <span class="text-[9px] font-bold uppercase">Profile</span>
-            </a>
+                <a href="#"
+                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-on-surface-variant">
+                    <span class="material-symbols-outlined text-xl">person</span>
+                    <span class="text-[9px] font-bold uppercase">Profile</span>
+                </a>
 
-            <a href="{{ route('employer.job-list') }}"
-               class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.job-list') ? 'text-primary' : 'text-on-surface-variant' }}">
-                <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.job-list') ? 'icon-fill' : '' }}">work</span>
-                <span class="text-[9px] font-bold uppercase">Jobs</span>
-            </a>
+                <a href="#"
+                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-on-surface-variant">
+                    <span class="material-symbols-outlined text-xl">work</span>
+                    <span class="text-[9px] font-bold uppercase">Jobs</span>
+                </a>
 
-            <a href="{{ route('employer.team') }}"
-               class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.team') ? 'text-primary' : 'text-on-surface-variant' }}">
-                <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.team') ? 'icon-fill' : '' }}">group</span>
-                <span class="text-[9px] font-bold uppercase">Team</span>
-            </a>
+                <a href="#"
+                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-on-surface-variant">
+                    <span class="material-symbols-outlined text-xl">search</span>
+                    <span class="text-[9px] font-bold uppercase">Search</span>
+                </a>
 
-            <a href="{{ route('employer.schedule-interview') }}"
-               class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.schedule-interview') ? 'text-primary' : 'text-on-surface-variant' }}">
-                <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.schedule-interview') ? 'icon-fill' : '' }}">calendar_month</span>
-                <span class="text-[9px] font-bold uppercase">Interview</span>
-            </a>
+                <a href="#"
+                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors text-on-surface-variant">
+                    <span class="material-symbols-outlined text-xl">settings</span>
+                    <span class="text-[9px] font-bold uppercase">Settings</span>
+                </a>
 
-        </div>
+            </div>
     </nav>
 
+    {{-- ============================================================
+         JS — Sidebar toggle
+    ============================================================ --}}
     <script>
         const sidebar  = document.getElementById('sidebar');
         const overlay  = document.getElementById('sidebar-overlay');
@@ -159,6 +163,7 @@
             setTimeout(() => overlay.classList.add('hidden'), 300);
         }
 
+        // Close on resize to desktop
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 1024) closeSidebar();
         });

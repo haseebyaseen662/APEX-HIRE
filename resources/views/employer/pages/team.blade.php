@@ -1,127 +1,133 @@
 @extends('employer.layouts.app')
 
 @section('content')
+<main class="lg:ml-64 pt-16 pb-24 min-h-screen">
+        <div class="px-5 sm:px-8 py-2 max-w-5xl mx-auto">
 
-    <main class="portal-main pt-20 lg:pt-24 px-4 sm:px-6 lg:px-10 pb-20">
-      <div class="max-w-6xl mx-auto">
-        <div class="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-          <div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 mb-1">Team</h1>
-            <p class="text-slate-500 text-sm font-medium">Manage members, roles, and access to your employer portal.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <button class="px-5 py-2.5 rounded-full bg-[#b62dd6] text-white text-sm font-bold shadow-lg shadow-purple-200" type="button">
-              Invite Member
-            </button>
-          </div>
+            {{-- ── Page Header ── --}}
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight">Team Management</h2>
+                    <p class="text-on-surface-variant text-sm mt-1">Manage team members, roles, and access permissions</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="px-4 py-2 border border-outline-variant/40 rounded-full font-semibold text-xs hover:bg-surface-high transition-all">
+                        Manage Roles
+                    </button>
+                    <button class="gradient-primary text-white px-5 py-2 rounded-full font-bold text-xs shadow-md hover:opacity-90 transition-all">
+                        Invite Member
+                    </button>
+                </div>
+            </div>
+
+            {{-- ── Team Stats ── --}}
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-6">
+                <div class="bg-surface-white rounded-xl p-6 shadow-[0_4px_20px_rgba(25,28,29,0.05)] section-card fade-up">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 bg-primary-light rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary">group</span>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Total Members</p>
+                    <p class="text-2xl font-extrabold">7</p>
+                </div>
+                <div class="bg-surface-white rounded-xl p-6 shadow-[0_4px_20px_rgba(25,28,29,0.05)] section-card fade-up">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-blue-600">admin_panel_settings</span>
+                        </div>
+                        <span class="px-2 py-1 bg-surface-low text-on-surface-variant text-xs font-bold rounded-full">RBAC</span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Roles</p>
+                    <p class="text-2xl font-extrabold">4</p>
+                </div>
+                <div class="bg-surface-white rounded-xl p-6 shadow-[0_4px_20px_rgba(25,28,29,0.05)] section-card fade-up">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-green-600">security</span>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Enabled</span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">2FA</p>
+                    <p class="text-2xl font-extrabold">100%</p>
+                </div>
+                <div class="bg-surface-white rounded-xl p-6 shadow-[0_4px_20px_rgba(25,28,29,0.05)] section-card fade-up">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                            <span class="material-symbols-outlined text-orange-600">pending</span>
+                        </div>
+                        <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">Pending</span>
+                    </div>
+                    <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider">Invites</p>
+                    <p class="text-2xl font-extrabold">2</p>
+                </div>
+            </div>
+
+            {{-- ── Team Members ── --}}
+            <div class="bg-surface-white rounded-xl p-6 sm:p-8 shadow-[0_4px_20px_rgba(25,28,29,0.05)] section-card fade-up">
+                <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">groups</span>
+                    Team Members
+                </h3>
+                <div class="space-y-4">
+                    {{-- Team Member 1 --}}
+                    <div class="flex items-center justify-between p-4 bg-surface-high rounded-lg">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-primary-light flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary">person</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">Sarah Johnson</p>
+                                <p class="text-sm text-on-surface-variant/60">Hiring Manager • sarah@company.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</span>
+                            <button class="p-2 hover:bg-surface-low rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant/60">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                    {{-- Team Member 2 --}}
+                    <div class="flex items-center justify-between p-4 bg-surface-high rounded-lg">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-blue-600">person</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">Mike Chen</p>
+                                <p class="text-sm text-on-surface-variant/60">Technical Recruiter • mike@company.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</span>
+                            <button class="p-2 hover:bg-surface-low rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant/60">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                    {{-- Team Member 3 --}}
+                    <div class="flex items-center justify-between p-4 bg-surface-high rounded-lg">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-orange-600">person</span>
+                            </div>
+                            <div>
+                                <p class="font-bold">Alex Rivera</p>
+                                <p class="text-sm text-on-surface-variant/60">HR Coordinator • alex@company.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full">Pending</span>
+                            <button class="p-2 hover:bg-surface-low rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant/60">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
-          <div class="bg-white p-5 rounded-[24px] shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <div class="flex justify-between items-start mb-3">
-              <div class="w-10 h-10 rounded-2xl bg-purple-50 flex items-center justify-center text-[#b62dd6]">
-                <i class="bx bx-group text-lg"></i>
-              </div>
-              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">Active</span>
-            </div>
-            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Members</p>
-            <p class="text-xl lg:text-2xl font-bold leading-tight">7</p>
-          </div>
-          <div class="bg-white p-5 rounded-[24px] shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <div class="flex justify-between items-start mb-3">
-              <div class="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600">
-                <i class="bx bx-shield-quarter text-lg"></i>
-              </div>
-              <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full">RBAC</span>
-            </div>
-            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Roles</p>
-            <p class="text-xl lg:text-2xl font-bold leading-tight">4</p>
-          </div>
-          <div class="bg-white p-5 rounded-[24px] shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <div class="flex justify-between items-start mb-3">
-              <div class="w-10 h-10 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600">
-                <i class="bx bx-check-circle text-lg"></i>
-              </div>
-              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-full">On</span>
-            </div>
-            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Two-Factor Authentication</p>
-            <p class="text-xl lg:text-2xl font-bold leading-tight">Enabled</p>
-          </div>
-          <div class="bg-white p-5 rounded-[24px] shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-            <div class="flex justify-between items-start mb-3">
-              <div class="w-10 h-10 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600">
-                <i class="bx bx-time-five text-lg"></i>
-              </div>
-              <span class="text-xs font-bold text-slate-600 bg-slate-100 px-2 py-1 rounded-full">7d</span>
-            </div>
-            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Invites</p>
-            <p class="text-xl lg:text-2xl font-bold leading-tight">2</p>
-          </div>
-        </div>
-
-        <section class="bg-white rounded-[28px] p-6 lg:p-8 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
-          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
-            <div>
-              <h2 class="text-xl font-bold text-slate-900 mb-1">Members</h2>
-              <p class="text-xs text-slate-500">Assign roles and manage access. Static UI for now.</p>
-            </div>
-            <div class="relative w-full sm:w-72">
-              <i class="bx bx-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-              <input
-                class="w-full bg-[#f7f8fd] border border-slate-200 rounded-full py-2.5 pl-12 pr-4 text-sm focus:ring-4 focus:ring-purple-100 focus:border-[#b62dd6] transition-all"
-                placeholder="Search members..."
-                type="text"
-              />
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl bg-[#f7f8fd] border border-slate-100">
-              <div class="flex items-center gap-4 flex-1 min-w-0">
-                <img class="w-11 h-11 rounded-2xl" src="assets/images/avatar-employer.svg" alt="Member avatar" />
-                <div class="min-w-0">
-                  <p class="font-bold text-slate-900 truncate">Alex Thompson</p>
-                  <p class="text-xs text-slate-500 font-medium truncate">alex@apexhire.example</p>
-                </div>
-              </div>
-              <span class="text-[10px] font-black uppercase tracking-widest bg-purple-50 text-[#b62dd6] px-3 py-1 rounded-full">Owner</span>
-              <button class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-xs font-bold hover:bg-slate-50" type="button">
-                Manage
-              </button>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl bg-[#f7f8fd] border border-slate-100">
-              <div class="flex items-center gap-4 flex-1 min-w-0">
-                <img class="w-11 h-11 rounded-2xl" src="assets/images/avatar-sarah.svg" alt="Member avatar" />
-                <div class="min-w-0">
-                  <p class="font-bold text-slate-900 truncate">Sarah Chen</p>
-                  <p class="text-xs text-slate-500 font-medium truncate">sarah@apexhire.example</p>
-                </div>
-              </div>
-              <span class="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-600 px-3 py-1 rounded-full">Recruiter</span>
-              <button class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-xs font-bold hover:bg-slate-50" type="button">
-                Manage
-              </button>
-            </div>
-
-            <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl bg-[#f7f8fd] border border-slate-100">
-              <div class="flex items-center gap-4 flex-1 min-w-0">
-                <img class="w-11 h-11 rounded-2xl" src="assets/images/avatar-marcus.svg" alt="Member avatar" />
-                <div class="min-w-0">
-                  <p class="font-bold text-slate-900 truncate">Marcus Thorne</p>
-                  <p class="text-xs text-slate-500 font-medium truncate">marcus@apexhire.example</p>
-                </div>
-              </div>
-              <span class="text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 px-3 py-1 rounded-full">Hiring Mgr</span>
-              <button class="px-4 py-2 rounded-full border border-slate-200 bg-white text-slate-700 text-xs font-bold hover:bg-slate-50" type="button">
-                Manage
-              </button>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="h-24 lg:hidden"></div>
-    </main>
-
+</main>
 @endsection

@@ -1,85 +1,24 @@
-<header
-      class="portal-header fixed top-0 left-0 right-0 h-16 bg-white z-40 flex items-center justify-end lg:justify-between px-4 sm:px-6 lg:px-8 gap-4 border-b border-slate-100"
-    >
-      <div class="portal-header-inner w-full flex items-center justify-end gap-4">
-        <div class="flex items-center gap-4 sm:gap-6">
-          <button
-            class="hover:bg-slate-100 rounded-full p-2 transition-colors duration-200 text-slate-500"
-            type="button"
-          >
-            <i class="bx bx-search text-xl"></i>
-          </button>
-          <div class="portal-notification relative" data-notification-root>
-            <button
-              aria-expanded="false"
-              aria-haspopup="true"
-              class="hover:bg-slate-100 rounded-full p-2 transition-colors duration-200 text-slate-500 relative"
-              data-notification-toggle
-              type="button"
-            >
-              <i class="bx bx-bell text-xl"></i>
-              <span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
-            </button>
-            <div class="portal-notification-menu" data-notification-menu>
-              <div class="portal-notification-head px-3 pb-3 pt-1 flex items-center justify-between gap-3">
-                <div>
-                  <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Notifications</p>
-                  <p class="mt-1 text-sm font-semibold text-slate-900">Hiring updates</p>
-                </div>
-                <span class="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-[#b62dd6]">3 New</span>
-              </div>
-              <div class="mt-3 space-y-2">
-                <a class="portal-notification-item" href="#">
-                  <div class="flex items-start gap-3">
-                    <span class="portal-notification-avatar bg-purple-100 text-[#b62dd6]">
-                      <i class="bx bx-calendar-check text-base"></i>
-                    </span>
-                    <div class="min-w-0">
-                      <p class="text-sm font-bold text-slate-900">Sarah Chen moved to final round</p>
-                      <p class="mt-1 text-xs leading-5 text-slate-500">Schedule her interview from the applicants queue.</p>
-                    </div>
-                  </div>
-                </a>
-                <a class="portal-notification-item" href="#">
-                  <div class="flex items-start gap-3">
-                    <span class="portal-notification-avatar bg-sky-100 text-sky-600">
-                      <i class="bx bx-briefcase text-base"></i>
-                    </span>
-                    <div class="min-w-0">
-                      <p class="text-sm font-bold text-slate-900">Senior UI Designer post reached 142 applicants</p>
-                      <p class="mt-1 text-xs leading-5 text-slate-500">Review job performance and shortlist top candidates.</p>
-                    </div>
-                  </div>
-                </a>
-                <a class="portal-notification-item" href="#">
-                  <div class="flex items-start gap-3">
-                    <span class="portal-notification-avatar bg-emerald-100 text-emerald-600">
-                      <i class="bx bx-user-check text-base"></i>
-                    </span>
-                    <div class="min-w-0">
-                      <p class="text-sm font-bold text-slate-900">Victoria Gomez accepted interview panel request</p>
-                      <p class="mt-1 text-xs leading-5 text-slate-500">Your hiring team availability has been updated.</p>
-                    </div>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="h-8 w-px bg-slate-200/50"></div>
-          <div class="flex items-center gap-3">
-            <div class="text-right">
-              <p class="font-bold text-sm leading-none">Alex Sterling</p>
-              <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
-                Hiring Manager
-              </p>
-            </div>
-            <img
-              alt="User Avatar"
-              class="w-10 h-10 rounded-full border-2 border-primary/10"
-              data-alt="Professional headshot of a hiring manager"
-              src="{{ asset('employer/assets/images/avatar-employer.svg') }}"
-            />
-          </div>
-        </div>
+<header class="sticky top-0 left-0 right-0 lg:left-64 lg:right-0 z-50 border-b border-primary/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-6 md:px-20 py-4">
+  <div class="mx-auto flex max-w-7xl items-center justify-between">
+    <a class="flex items-center" href="{{ route('employer.dashboard') }}">
+      <img src="{{ asset('website/assets/images/logo-white.png') }}" alt="Apex Hire logo" class="h-12 w-auto"/>
+    </a>
+    <div class="hidden lg:flex flex-1 justify-end gap-8 items-center">
+      <nav class="flex items-center gap-9">
+        <a class="{{ request()->routeIs('employer.dashboard') ? 'text-primary text-sm font-bold border-b-2 border-primary' : 'text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors' }}" href="{{ route('employer.dashboard') }}">Dashboard</a>
+        <a class="{{ request()->routeIs('employer.account') ? 'text-primary text-sm font-bold border-b-2 border-primary' : 'text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors' }}" href="{{ route('employer.account') }}">Company Profile</a>
+        <a class="{{ request()->routeIs('employer.job-list') ? 'text-primary text-sm font-bold border-b-2 border-primary' : 'text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors' }}" href="{{ route('employer.job-list') }}">Jobs</a>
+        <a class="{{ request()->routeIs('employer.schedule-interview') ? 'text-primary text-sm font-bold border-b-2 border-primary' : 'text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors' }}" href="{{ route('employer.schedule-interview') }}">Schedule Interview</a>
+        <a class="{{ request()->routeIs('employer.team') ? 'text-primary text-sm font-bold border-b-2 border-primary' : 'text-slate-600 dark:text-slate-400 text-sm font-semibold hover:text-primary transition-colors' }}" href="{{ route('employer.team') }}">Team</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-6 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold leading-normal tracking-wide shadow-lg shadow-primary/30" href="{{ route('employer.job-create') }}">
+          <span class="truncate">Post a Job</span>
+        </a>
       </div>
-    </header>
+    </div>
+    <a class="lg:hidden text-slate-900 dark:text-white" href="{{ route('employer.dashboard') }}" role="button" aria-label="Open menu">
+      <i class="bx bx-menu"></i>
+    </a>
+  </div>
+</header>

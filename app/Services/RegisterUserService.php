@@ -24,22 +24,16 @@ class RegisterUserService
             $user->assignRole($data['account_type']);
 
             if($data['account_type'] === 'seeker') {
-                if($request->hasFile('resume')) {
-                    $resumePath = $request->file('resume')->store('resumes');
-                } else {
-                    $resumePath = null;
-                }
-
                 JobSeekerProfile::create([
                     'user_id' => $user->id,
                     'job_title' => $data['job_title'],
                     'seeker_location' => $data['seeker_location'],
-                    'resume' => $resumePath
                 ]);
 
             }
 
             else {
+
                 if($request->hasFile('company_logo')) {
                     $logoPath = $request->file('company_logo')->store('company_logos', 'public');
                 } else {

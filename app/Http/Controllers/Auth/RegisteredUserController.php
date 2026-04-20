@@ -26,7 +26,8 @@ class RegisteredUserController extends Controller
     {
         $user = $this->service->handle($request->validated(), $request);
 
-        event(new UserRegistered($user));
+        // Pass the current host into the queued listener so signed URLs match the active environment.
+        event(new UserRegistered($user, $request->getSchemeAndHttpHost()));
 
         $request->session()->put('verification_email', $user->email);
         $request->session()->put('verification_email_last_sent_at', Carbon::now()->timestamp);

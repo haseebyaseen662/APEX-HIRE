@@ -1,69 +1,71 @@
-@php
-    $dashboardActive = request()->routeIs('employer.dashboard');
-    $jobsActive = request()->routeIs('employer.job-*');
-    $teamActive = request()->routeIs('employer.team', 'employer.schedule-interview');
-    $accountActive = request()->routeIs('employer.account');
-@endphp
+<div
+        id="sidebar-overlay"
+        class="fixed inset-0 bg-black/30 z-40 hidden opacity-0"
+        onclick="closeSidebar()"
+    ></div>
 
-<aside
-      class="portal-sidebar h-screen w-64 fixed left-0 top-0 bg-white border-r border-slate-100 flex flex-col py-6 z-50"
-    >
-      <div class="px-6 mb-10">
-        <div class="flex items-center justify-between gap-3">
-          <div class="flex flex-col items-center portal-brand-copy">
-            <img
-              alt="Apex Hire logo"
-              class="h-12 w-auto object-contain"
-              src="{{ asset('employer/assets/images/logo-white.png') }}"
-            />
-            <p class="mt-1 text-[9px] font-extrabold uppercase tracking-[0.18em] text-slate-400 text-center">
-              Recruiter Portal
-            </p>
-          </div>
-          <button class="lg:hidden h-10 w-10 rounded-full border border-slate-200 text-slate-500 flex items-center justify-center" data-sidebar-close type="button">
-            <i class="bx bx-x text-xl"></i>
-          </button>
+    <aside
+        id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-surface-white z-40 flex flex-col mt-16 py-7 px-4 shadow-[4px_0_24px_rgba(25,28,29,0.06)]
+               -translate-x-full lg:translate-x-0">
+
+        <nav class="flex flex-col gap-1">
+
+            <a href="{{ route('employer.dashboard') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-low hover:text-on-surface transition-colors text-sm font-medium
+               {{ request()->routeIs('employer.dashboard') ? 'active' : '' }}">
+                <span class="material-symbols-outlined nav-icon text-xl">dashboard</span>
+                Dashboard
+            </a>
+
+            <a href="{{ route('employer.account') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-low hover:text-on-surface transition-colors text-sm font-medium
+               {{ request()->routeIs('employer.account') ? 'active' : '' }}">
+                <span class="material-symbols-outlined nav-icon text-xl">person</span>
+                Company Profile
+            </a>
+
+            <a href="{{ route('employer.job-list') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-low hover:text-on-surface transition-colors text-sm font-medium
+               {{ request()->routeIs('employer.job-list') ? 'active' : '' }}">
+                <span class="material-symbols-outlined nav-icon text-xl">work</span>
+                Jobs
+            </a>
+
+            <a href="{{ route('employer.schedule-interview') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-low hover:text-on-surface transition-colors text-sm font-medium
+               {{ request()->routeIs('employer.schedule-interview') ? 'active' : '' }}">
+                <span class="material-symbols-outlined nav-icon text-xl">calendar_month</span>
+                Schedule Interview
+            </a>
+
+            <a href="{{ route('employer.team') }}"
+               class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-low hover:text-on-surface transition-colors text-sm font-medium
+               {{ request()->routeIs('employer.team') ? 'active' : '' }}">
+                <span class="material-symbols-outlined nav-icon text-xl">group</span>
+                Team
+            </a>
+
+        </nav>
+
+        <div class="pt-3 border-t border-outline-variant/20 space-y-2 mt-4">
+            <div class="flex items-center gap-3 px-3 py-3 rounded-lg bg-surface-low">
+                <div class="w-9 h-9 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-sm shrink-0">
+                    {{ strtoupper(substr(auth()->user()->name ?? 'E', 0, 1)) }}
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-sm font-bold truncate">{{ auth()->user()->name ?? 'Employer' }}</p>
+                    <p class="text-xs text-on-surface-variant truncate">{{ auth()->user()->email ?? '' }}</p>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-colors text-sm font-medium">
+                    <span class="material-symbols-outlined text-xl">logout</span>
+                    Logout
+                </button>
+            </form>
         </div>
-      </div>
-
-      <nav class="flex-1 space-y-1">
-        <a
-          class="portal-nav-link {{ $dashboardActive ? 'bg-[#b62dd6] text-white shadow-lg shadow-purple-200' : 'text-slate-600 hover:text-[#b62dd6] hover:bg-purple-50' }} rounded-full mx-2 my-1 flex items-center px-4 py-3 gap-3 transition-all duration-200"
-          href="{{ route('employer.dashboard') }}"
-        >
-          <i class="bx bx-grid-alt text-lg"></i>
-          <span class="font-bold tracking-tight">Dashboard</span>
-        </a>
-        <a
-          class="portal-nav-link {{ $jobsActive ? 'bg-[#b62dd6] text-white shadow-lg shadow-purple-200' : 'text-slate-600 hover:text-[#b62dd6] hover:bg-purple-50' }} rounded-full mx-2 my-1 flex items-center px-4 py-3 gap-3 transition-all duration-200"
-          href="{{ route('employer.job-list') }}"
-        >
-          <i class="bx bx-briefcase text-lg"></i>
-          <span class="font-bold tracking-tight">Jobs</span>
-        </a>
-        <a
-          class="portal-nav-link {{ $teamActive ? 'bg-[#b62dd6] text-white shadow-lg shadow-purple-200' : 'text-slate-600 hover:text-[#b62dd6] hover:bg-purple-50' }} rounded-full mx-2 my-1 flex items-center px-4 py-3 gap-3 transition-all duration-200"
-          href="{{ route('employer.team') }}"
-        >
-          <i class="bx bx-group text-lg"></i>
-          <span class="font-bold tracking-tight">Team</span>
-        </a>
-        <a
-          class="portal-nav-link {{ $accountActive ? 'bg-[#b62dd6] text-white shadow-lg shadow-purple-200' : 'text-slate-600 hover:text-[#b62dd6] hover:bg-purple-50' }} rounded-full mx-2 my-1 flex items-center px-4 py-3 gap-3 transition-all duration-200"
-          href="{{ route('employer.account') }}"
-        >
-          <i class="bx bx-user text-lg"></i>
-          <span class="font-bold tracking-tight">Account</span>
-        </a>
-      </nav>
-
-      <div class="px-4 mt-auto">
-        <a
-          class="portal-postjob w-full bg-[#b62dd6] text-white font-bold py-4 rounded-full shadow-lg shadow-purple-200 flex items-center justify-center gap-2"
-          href="{{ route('employer.job-create') }}"
-        >
-          <i class="bx bx-plus text-lg"></i>
-          <span class="portal-postjob-label">Post a Job</span>
-        </a>
-      </div>
     </aside>

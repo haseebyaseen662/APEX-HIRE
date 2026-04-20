@@ -44,9 +44,26 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $redirectTo = $user->hasRole('employer')
-            ? route('employer.dashboard', absolute: false)
-            : route('home', absolute: false);
+        if ($user->hasRole('employer')) {
+            $redirectTo = route('employer.dashboard', absolute: false);
+        } elseif ($user->hasRole('seeker')) {
+            $profile = $user->jobSeekerProfile()->firstOrCreate([], [
+                'job_title' => null,
+                'seeker_location' => null,
+            ]);
+
+            if (! $profile->onboarding_first_login_seen_at) {
+                $profile->forceFill([
+                    'onboarding_first_login_seen_at' => now(),
+                ])->save();
+
+                $redirectTo = route('seeker.onboarding.experience', absolute: false);
+            } else {
+                $redirectTo = route('seeker.dashboard', absolute: false);
+            }
+        } else {
+            $redirectTo = route('home', absolute: false);
+        }
 
         return redirect()->intended($redirectTo);
     }

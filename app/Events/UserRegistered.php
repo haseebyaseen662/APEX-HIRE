@@ -16,9 +16,11 @@ class UserRegistered
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $user;
+    public string $appUrl;
 
-    public function __construct(User $user)
+    public function __construct(User $user, string $appUrl)
     {
         $this->user = $user;
+        $this->appUrl = $appUrl;
     }
 }

@@ -57,8 +57,8 @@
         <div class="flex flex-col gap-1.5">
         <label class="text-slate-900 dark:text-white text-sm font-medium leading-normal">Email Address</label>
         <div class="flex w-full items-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden h-12 transition-all">
-        <div class="pl-4 text-slate-400 dark:text-slate-500">
-        <i class="bx bx-envelope text-[20px]"></i>
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 dark:text-slate-500 leading-none">
+        <i class="bx bx-envelope block text-[20px] leading-none"></i>
         </div>
         <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="name@example.com" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"/>
         </div>
@@ -73,12 +73,12 @@
         <a class="text-primary text-sm font-medium hover:underline" href="{{ route('password.request') }}">Forgot password?</a>
         </div>
         <div class="flex w-full items-center rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary overflow-hidden h-12 transition-all">
-        <div class="pl-4 text-slate-400 dark:text-slate-500">
-        <i class="bx bx-lock text-[20px]"></i>
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 dark:text-slate-500 leading-none">
+        <i class="bx bx-lock block text-[20px] leading-none"></i>
         </div>
         <input class="w-full bg-transparent border-none text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:ring-0 text-sm px-3" placeholder="Enter your password" type="password" name="password" required autocomplete="current-password"/>
-        <button class="pr-4 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300" type="button" data-toggle-password>
-        <i class="bx bx-hide text-[20px]"></i>
+        <button class="flex h-12 w-12 shrink-0 items-center justify-center self-stretch text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 leading-none" type="button" data-toggle-password>
+        <i class="bx bx-hide block text-[20px] leading-none"></i>
         </button>
         </div>
         @error('password')

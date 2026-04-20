@@ -26,6 +26,15 @@ class SendVerificationEmail Implements ShouldQueue
     public function handle(UserRegistered $event): void
     {
         $user = $event->user;
+
+        // This listener runs in a queue worker (no HTTP request), so force the URL generator
+        // to use the same host the user registered on (e.g. http://127.0.0.1:8000).
+        $scheme = parse_url($event->appUrl, PHP_URL_SCHEME);
+        if (is_string($scheme) && $scheme !== '') {
+            URL::forceScheme($scheme);
+        }
+        URL::forceRootUrl($event->appUrl);
+
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(Config::get('auth.verification.expire', 60)),

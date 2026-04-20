@@ -10,6 +10,8 @@ use Spatie\Permission\Traits\HasRoles;
 use App\Models\Company;
 use App\Models\JobSeekerProfile;
 use App\Models\PasswordHistory;
+use App\Models\SeekerEducation;
+use App\Models\SeekerExperience;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -63,5 +65,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function passwordHistories()
     {
         return $this->hasMany(PasswordHistory::class)->latest();
+    }
+
+    public function experiences()
+    {
+        return $this->hasMany(SeekerExperience::class)->orderBy('sort_order');
+    }
+
+    public function educations()
+    {
+        return $this->hasMany(SeekerEducation::class)->orderBy('sort_order');
     }
 }

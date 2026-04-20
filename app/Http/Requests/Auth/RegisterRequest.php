@@ -37,7 +37,6 @@ class RegisterRequest extends FormRequest
             $rules['employer_location'] = ['required', 'string', 'max:500'];
         }
         else {
-            $rules['resume'] = ['nullable', 'file', 'mimes:pdf', 'max:5120'];
             $rules['job_title'] = ['required', 'string', 'max:255'];
             $rules['seeker_location'] = ['required', 'string', 'max:500'];
         }
