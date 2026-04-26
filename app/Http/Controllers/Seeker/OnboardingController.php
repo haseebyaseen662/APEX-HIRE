@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -25,6 +26,66 @@ class OnboardingController extends Controller
         'other' => 'Other',
     ];
 
+    public function profile(Request $request): View|RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->jobSeekerProfile()->firstOrCreate([], [
+            'job_title' => null,
+            'seeker_location' => null,
+        ]);
+
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        if (! $profile->onboarding_first_login_seen_at) {
+            $profile->forceFill([
+                'onboarding_first_login_seen_at' => now(),
+            ])->save();
+        }
+
+        return view('seeker.onboarding.steps.profile', [
+            'profile' => $profile,
+        ]);
+    }
+
+    public function storeProfile(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->jobSeekerProfile()->firstOrCreate([], [
+            'job_title' => null,
+            'seeker_location' => null,
+        ]);
+
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        $validated = $request->validate([
+            'job_title' => ['required', 'string', 'max:255'],
+            'seeker_location' => ['required', 'string', 'max:500'],
+            'profile_picture' => ['nullable', 'image', 'max:2048'],
+        ]);
+
+        $picturePath = $profile->profile_picture;
+
+        if ($request->hasFile('profile_picture')) {
+            if ($picturePath) {
+                Storage::disk('public')->delete($picturePath);
+            }
+
+            $picturePath = $request->file('profile_picture')->store('seeker_profile_pictures', 'public');
+        }
+
+        $profile->forceFill([
+            'job_title' => $validated['job_title'],
+            'seeker_location' => $validated['seeker_location'],
+            'profile_picture' => $picturePath,
+        ])->save();
+
+        return redirect()->route('seeker.onboarding.education');
+    }
+
     public function experience(Request $request): View|RedirectResponse
     {
         $user = $request->user();
@@ -33,13 +94,17 @@ class OnboardingController extends Controller
             'seeker_location' => null,
         ]);
 
-        if (! $profile->onboarding_education_completed_at) {
-            return redirect()->route('seeker.onboarding.education');
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        if (! $profile->job_title || ! $profile->seeker_location) {
+            return redirect()->route('seeker.onboarding.profile');
         }
 
         $experiences = $request->user()->experiences()->get();
 
-        return view('seeker.pages.onboarding.experience', [
+        return view('seeker.onboarding.steps.experience', [
             'experiences' => $experiences,
             'months' => $this->months(),
             'years' => $this->years(),
@@ -54,8 +119,12 @@ class OnboardingController extends Controller
             'seeker_location' => null,
         ]);
 
-        if (! $profile->onboarding_education_completed_at) {
-            return redirect()->route('seeker.onboarding.education');
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        if (! $profile->job_title || ! $profile->seeker_location) {
+            return redirect()->route('seeker.onboarding.profile');
         }
 
         $rows = $this->normalizeExperienceRows((array) $request->input('experience', []));
@@ -86,15 +155,28 @@ class OnboardingController extends Controller
             ])->save();
         });
 
-        return redirect()->route('seeker.dashboard')
-            ->with('status', 'experience-saved');
+        return redirect()->route('seeker.dashboard');
     }
 
-    public function education(Request $request): View
+    public function education(Request $request): View|RedirectResponse
     {
+        $user = $request->user();
+        $profile = $user->jobSeekerProfile()->firstOrCreate([], [
+            'job_title' => null,
+            'seeker_location' => null,
+        ]);
+
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        if (! $profile->job_title || ! $profile->seeker_location) {
+            return redirect()->route('seeker.onboarding.profile');
+        }
+
         $educations = $request->user()->educations()->get();
 
-        return view('seeker.pages.onboarding.education', [
+        return view('seeker.onboarding.steps.education', [
             'educations' => $educations,
             'months' => $this->months(),
             'years' => $this->years(),
@@ -109,6 +191,14 @@ class OnboardingController extends Controller
             'job_title' => null,
             'seeker_location' => null,
         ]);
+
+        if ($profile->onboarding_completed_at) {
+            return redirect()->route('seeker.dashboard');
+        }
+
+        if (! $profile->job_title || ! $profile->seeker_location) {
+            return redirect()->route('seeker.onboarding.profile');
+        }
 
         $rows = $this->normalizeEducationRows((array) $request->input('education', []));
         $this->validateEducationRows($rows);
@@ -137,8 +227,22 @@ class OnboardingController extends Controller
             ])->save();
         });
 
-        return redirect()->route('seeker.onboarding.experience')
-            ->with('status', 'education-saved');
+        return redirect()->route('seeker.onboarding.experience');
+    }
+
+    public function complete(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->jobSeekerProfile()->firstOrCreate([], [
+            'job_title' => null,
+            'seeker_location' => null,
+        ]);
+
+        $profile->forceFill([
+            'onboarding_completed_at' => now(),
+        ])->save();
+
+        return redirect()->route('seeker.dashboard');
     }
 
     private function normalizeExperienceRows(array $rows): array

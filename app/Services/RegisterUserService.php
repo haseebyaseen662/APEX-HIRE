@@ -15,40 +15,36 @@ class RegisterUserService
     public function handle(array $data, Request $request): User
     {
         return DB::transaction(function () use ($data, $request) {
+            $nameFromEmail = (string) Str::of($data['email'])
+                ->before('@')
+                ->replace(['.', '_', '-'], ' ')
+                ->squish()
+                ->title();
+
             $user = User::create([
-                'name' => $data['first_name'] . ' ' . $data['last_name'],
+                'name' => $nameFromEmail !== '' ? $nameFromEmail : 'User',
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
 
             $user->assignRole($data['account_type']);
 
-            if($data['account_type'] === 'seeker') {
+            if ($data['account_type'] === 'seeker') {
                 JobSeekerProfile::create([
                     'user_id' => $user->id,
-                    'job_title' => $data['job_title'],
-                    'seeker_location' => $data['seeker_location'],
+                    'job_title' => null,
+                    'seeker_location' => null,
                 ]);
-
-            }
-
-            else {
-
-                if($request->hasFile('company_logo')) {
-                    $logoPath = $request->file('company_logo')->store('company_logos', 'public');
-                } else {
-                    $logoPath = null;
-                }
-
+            } else {
                 Company::create([
                     'user_id' => $user->id,
-                    'slug' => Str::slug($data['company_name'] . '-' . $user->id),
-                    'company_name' => $data['company_name'],
-                    'industry' => $data['industry'],
-                    'company_size' => $data['company_size'],
-                    'employer_location' => $data['employer_location'],
+                    'slug' => null,
+                    'company_name' => null,
+                    'industry' => null,
+                    'company_size' => null,
+                    'employer_location' => null,
                     'is_approved' => 'in_review',
-                    'company_logo' => $logoPath
+                    'company_logo' => null,
                 ]);
             }
 

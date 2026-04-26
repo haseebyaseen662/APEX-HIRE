@@ -16,5 +16,12 @@ class Company extends Model
         'industry',
         'is_approved',
         'is_banned',
+        'onboarding_first_login_seen_at',
+        'onboarding_completed_at',
+    ];
+
+    protected $casts = [
+        'onboarding_first_login_seen_at' => 'datetime',
+        'onboarding_completed_at' => 'datetime',
     ];
 }

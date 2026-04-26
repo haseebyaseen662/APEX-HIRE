@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\Employer\DashboardController;
 use App\Http\Controllers\Employer\JobController;
+use App\Http\Controllers\Employer\OnboardingController as EmployerOnboardingController;
 use App\Http\Controllers\Seeker\DashboardController as SeekerDashboardController;
 use App\Http\Controllers\Seeker\OnboardingController;
 
@@ -17,6 +18,9 @@ Route::get('/terms-condition', [WebsiteController::class, 'terms'])->name('terms
 
 Route::middleware(['auth', 'verified', 'role:employer'])->prefix('employer')->name('employer.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('/onboarding/profile', [EmployerOnboardingController::class, 'profile'])->name('onboarding.profile');
+    Route::post('/onboarding/profile', [EmployerOnboardingController::class, 'storeProfile'])->name('onboarding.profile.store');
+    Route::get('/onboarding/complete', [EmployerOnboardingController::class, 'complete'])->name('onboarding.complete');
     Route::get('/account', [DashboardController::class, 'account'])->name('account');
     Route::get('/teams', [DashboardController::class, 'team'])->name('team');
     Route::get('/schedule-interview', [DashboardController::class, 'interview'])->name('schedule-interview');
@@ -26,10 +30,13 @@ Route::middleware(['auth', 'verified', 'role:employer'])->prefix('employer')->na
 
 Route::middleware(['auth', 'verified', 'role:seeker'])->prefix('seeker')->name('seeker.')->group(function () {
     Route::get('/dashboard', [SeekerDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/onboarding/experience', [OnboardingController::class, 'experience'])->name('onboarding.experience');
-    Route::post('/onboarding/experience', [OnboardingController::class, 'storeExperience'])->name('onboarding.experience.store');
+    Route::get('/onboarding/profile', [OnboardingController::class, 'profile'])->name('onboarding.profile');
+    Route::post('/onboarding/profile', [OnboardingController::class, 'storeProfile'])->name('onboarding.profile.store');
     Route::get('/onboarding/education', [OnboardingController::class, 'education'])->name('onboarding.education');
     Route::post('/onboarding/education', [OnboardingController::class, 'storeEducation'])->name('onboarding.education.store');
+    Route::get('/onboarding/experience', [OnboardingController::class, 'experience'])->name('onboarding.experience');
+    Route::post('/onboarding/experience', [OnboardingController::class, 'storeExperience'])->name('onboarding.experience.store');
+    Route::get('/onboarding/complete', [OnboardingController::class, 'complete'])->name('onboarding.complete');
 });
 
 Route::get('/logout', function () {

@@ -21,26 +21,10 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+        return [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'account_type' => ['required', 'string', 'in:seeker,employer'],
         ];
-
-        if($this->input('account_type') === 'employer') {
-            $rules['company_name'] = ['required', 'string', 'max:255'];
-            $rules['company_logo'] = ['nullable', 'image', 'max:2048'];
-            $rules['industry'] = ['required', 'string', 'max:255'];
-            $rules['company_size'] = ['required', 'string', 'max:255'];
-            $rules['employer_location'] = ['required', 'string', 'max:500'];
-        }
-        else {
-            $rules['job_title'] = ['required', 'string', 'max:255'];
-            $rules['seeker_location'] = ['required', 'string', 'max:500'];
-        }
-
-        return $rules;
     }
 }

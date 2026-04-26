@@ -12,6 +12,7 @@ class JobSeekerProfile extends Model
         'last_name',
         'job_title',
         'seeker_location',
+        'profile_picture',
         'onboarding_first_login_seen_at',
         'onboarding_experience_completed_at',
         'onboarding_education_completed_at',

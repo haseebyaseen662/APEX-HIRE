@@ -19,10 +19,12 @@ class DashboardController extends Controller
         $continueProfileUrl = null;
 
         if (! $profile->onboarding_completed_at) {
-            if (! $profile->onboarding_experience_completed_at) {
-                $continueProfileUrl = route('seeker.onboarding.experience');
+            if (! $profile->job_title || ! $profile->seeker_location) {
+                $continueProfileUrl = route('seeker.onboarding.profile');
             } elseif (! $profile->onboarding_education_completed_at) {
                 $continueProfileUrl = route('seeker.onboarding.education');
+            } elseif (! $profile->onboarding_experience_completed_at) {
+                $continueProfileUrl = route('seeker.onboarding.experience');
             }
         }
 
