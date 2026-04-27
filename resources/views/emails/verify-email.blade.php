@@ -27,7 +27,7 @@
                                     <img
                                         alt="Apex Hire logo"
                                         height="50"
-                                        src="{{ asset('website/assets/images/logo-black.png') }}"
+                                        src="{{ asset('website/assets/images/favicon.png') }}"
                                         style="display:block; outline:none; border:none; text-decoration:none; height:50px; width:auto; margin:0 auto;"
                                     />
                                 </td>
