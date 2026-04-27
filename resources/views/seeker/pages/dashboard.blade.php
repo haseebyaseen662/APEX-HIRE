@@ -1,7 +1,9 @@
 @extends('seeker.layouts.app')
 
+@section('page_title', 'Dashboard')
+
 @section('content')
-<main class="lg:ml-64 pt-16 min-h-screen">
+<main class="lg:ml-64 pt-16 pb-24 min-h-screen">
         <div class="px-5 sm:px-8 py-2 max-w-5xl mx-auto">
 
             {{-- ── Page Header ── --}}

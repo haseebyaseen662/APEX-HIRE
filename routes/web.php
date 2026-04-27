@@ -5,6 +5,7 @@ use App\Http\Controllers\WebsiteController;
 use App\Http\Controllers\Employer\DashboardController;
 use App\Http\Controllers\Employer\JobController;
 use App\Http\Controllers\Employer\OnboardingController as EmployerOnboardingController;
+use App\Http\Controllers\Seeker\PortalController;
 use App\Http\Controllers\Seeker\DashboardController as SeekerDashboardController;
 use App\Http\Controllers\Seeker\OnboardingController;
 
@@ -30,6 +31,9 @@ Route::middleware(['auth', 'verified', 'role:employer'])->prefix('employer')->na
 
 Route::middleware(['auth', 'verified', 'role:seeker'])->prefix('seeker')->name('seeker.')->group(function () {
     Route::get('/dashboard', [SeekerDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [PortalController::class, 'profile'])->name('profile');
+    Route::get('/applications', [PortalController::class, 'applications'])->name('applications');
+    Route::get('/account', [PortalController::class, 'account'])->name('account');
     Route::get('/onboarding/profile', [OnboardingController::class, 'profile'])->name('onboarding.profile');
     Route::post('/onboarding/profile', [OnboardingController::class, 'storeProfile'])->name('onboarding.profile.store');
     Route::get('/onboarding/education', [OnboardingController::class, 'education'])->name('onboarding.education');
@@ -38,6 +42,8 @@ Route::middleware(['auth', 'verified', 'role:seeker'])->prefix('seeker')->name('
     Route::post('/onboarding/experience', [OnboardingController::class, 'storeExperience'])->name('onboarding.experience.store');
     Route::get('/onboarding/complete', [OnboardingController::class, 'complete'])->name('onboarding.complete');
 });
+
+Route::get('/help-support', [WebsiteController::class, 'helpSupport'])->name('help-support');
 
 Route::get('/logout', function () {
     auth()->logout();

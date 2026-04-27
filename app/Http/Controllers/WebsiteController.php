@@ -40,4 +40,9 @@ class WebsiteController extends Controller
     {
         return view('website.pages.terms-condition');
     }
+
+    public function helpSupport()
+    {
+        return view('website.pages.help-support');
+    }
 }

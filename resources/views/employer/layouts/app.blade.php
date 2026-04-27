@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Employer Dashboard — Apex Hire</title>
-
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>@yield('page_title', 'Employer Dashboard - Apex Hire')</title>
+    <link rel="icon" type="image/png" href="{{ asset('website/assets/images/favicon.png') }}"/>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
@@ -57,7 +57,6 @@
 
         .gradient-primary { background: linear-gradient(135deg, #9e00b6 0%, #c123db 100%); }
 
-        /* Sidebar */
         #sidebar {
             transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
         }
@@ -65,7 +64,6 @@
             transition: opacity 0.3s ease;
         }
 
-        /* Nav active link */
         .nav-link.active {
             color: #9e00b6;
             background-color: #f5e6f8;
@@ -75,11 +73,9 @@
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Progress ring */
         .ring-track  { stroke: #e1e3e4; }
         .ring-fill   { stroke: #9e00b6; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
 
-        /* Stat cards fade-in */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(14px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -90,7 +86,6 @@
         .fade-up:nth-child(3) { animation-delay: 0.19s; }
         .fade-up:nth-child(4) { animation-delay: 0.26s; }
 
-        /* Section card hover */
         .section-card { transition: box-shadow 0.2s ease, transform 0.2s ease; }
         .section-card:hover { box-shadow: 0 8px 32px rgba(158,0,182,0.08); transform: translateY(-2px); }
 
@@ -100,7 +95,6 @@
 </head>
 
 <body class="bg-surface text-on-surface min-h-screen">
-
     @include('employer.layouts.sidebar')
 
     @include('employer.layouts.header')
@@ -109,7 +103,6 @@
 
     <nav class="lg:hidden fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-outline-variant/15 z-30">
         <div class="flex justify-around items-center py-2.5 px-2">
-
             <a href="{{ route('employer.dashboard') }}"
                class="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-colors {{ request()->routeIs('employer.dashboard') ? 'text-primary' : 'text-on-surface-variant' }}">
                 <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.dashboard') ? 'icon-fill' : '' }}">dashboard</span>
@@ -139,13 +132,12 @@
                 <span class="material-symbols-outlined text-xl {{ request()->routeIs('employer.schedule-interview') ? 'icon-fill' : '' }}">calendar_month</span>
                 <span class="text-[9px] font-bold uppercase">Interview</span>
             </a>
-
         </div>
     </nav>
 
     <script>
-        const sidebar  = document.getElementById('sidebar');
-        const overlay  = document.getElementById('sidebar-overlay');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
 
         function openSidebar() {
             sidebar.classList.remove('-translate-x-full');
@@ -160,9 +152,10 @@
         }
 
         window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) closeSidebar();
+            if (window.innerWidth >= 1024) {
+                closeSidebar();
+            }
         });
     </script>
-
 </body>
 </html>

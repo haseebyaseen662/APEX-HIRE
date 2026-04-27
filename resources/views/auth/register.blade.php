@@ -123,7 +123,7 @@
                                     placeholder="Min. 8 characters"
                                     data-rules="required|min:8" data-label="Password"
                                 />
-                                <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password>
+                                <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password data-target="password" aria-label="Toggle password visibility">
                                     <i class="bx bx-hide block text-[20px] leading-none"></i>
                                 </button>
                             </div>
@@ -138,17 +138,17 @@
 	                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="password_confirmation">
 	                                Confirm Password <span class="text-red-500">*</span>
 	                            </label>
-	                            <div class="relative">
-	                                <input
-	                                    class="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 pr-12 text-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
-	                                    id="password_confirmation" name="password_confirmation" type="password"
-	                                    placeholder="Repeat your password"
-	                                    data-rules="required|matches:password" data-label="Confirm password"
-	                                />
-	                                <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password>
-	                                    <i class="bx bx-hide block text-[20px] leading-none"></i>
-	                                </button>
-	                            </div>
+                            <div class="relative">
+                                <input
+                                    class="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 pr-12 text-sm transition-all focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 dark:border-slate-600 dark:bg-slate-900 dark:text-white"
+                                    id="password_confirmation" name="password_confirmation" type="password"
+                                    placeholder="Repeat your password"
+                                    data-rules="required|matches:password" data-label="Confirm password"
+                                />
+                                <button class="absolute right-0 top-0 flex h-full w-12 items-center justify-center px-0 text-slate-400 hover:text-primary transition-colors leading-none" type="button" data-toggle-password data-target="password_confirmation" aria-label="Toggle confirm password visibility">
+                                    <i class="bx bx-hide block text-[20px] leading-none"></i>
+                                </button>
+                            </div>
 	                            <p class="text-xs text-red-500 hidden mt-1" data-error="password_confirmation"></p>
 	                        </div>
 	
@@ -274,20 +274,6 @@
             if (!allValid) e.preventDefault();
         });
 
-        document.querySelectorAll('[data-toggle-password]').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                const input = btn.parentElement?.querySelector('input');
-                if (!input) return;
-                const isPassword = input.type === 'password';
-                input.type = isPassword ? 'text' : 'password';
-                const icon = btn.querySelector('i');
-                if (icon) {
-                    icon.className = isPassword
-                        ? 'bx bx-show block text-[20px] leading-none'
-                        : 'bx bx-hide block text-[20px] leading-none';
-                }
-            });
-        });
     });
     </script>
 
