@@ -101,50 +101,166 @@
   <p class="reveal reveal-up text-[#EFFFC8]/60 text-base mb-10" data-delay="150">Join the waitlist. Tell us who you are — we'll handle the rest.</p>
 
   <div class="reveal reveal-up rounded-2xl bg-[#100B00] border border-[#EFFFC8]/20 p-8 text-left" data-delay="300">
-    <form id="waitlist-form" action="{{ route('waitlist.store') }}" method="POST" class="space-y-5">
+    <form id="waitlist-form" class="space-y-5">
       @csrf
       <div>
         <label class="block text-xs font-semibold text-[#EFFFC8]/50 mb-1.5 tracking-wide uppercase">Email *</label>
-        <input type="email" name="email" required placeholder="you@company.com" class="field-input"/>
+        <input type="email" id="waitlist-email" name="email" required placeholder="you@company.com" class="field-input"/>
       </div>
       <div>
         <label class="block text-xs font-semibold text-[#EFFFC8]/50 mb-2.5 tracking-wide uppercase">I am a…</label>
-        <select name="type" required class="field-input">
+        <select id="waitlist-type" name="type" required class="field-input">
           <option value="professional" style="color: #100B00;">Skilled Professional</option>
           <option value="founder" style="color: #100B00;">Founder & Startup Owner</option>
           <option value="hr" style="color: #100B00;">HR Manager</option>
         </select>
       </div>
-      <button type="submit" class="w-full bg-[#85CB33] text-[#100B00] font-semibold rounded-full px-8 py-4 hover:bg-[#9AE65D] hover:scale-105 transition-all duration-300 text-sm mt-2">Join the waitlist</button>
+      <div id="waitlist-error" class="hidden text-red-400 text-sm text-center"></div>
+      <button id="waitlist-submit" type="submit" class="w-full bg-[#85CB33] text-[#100B00] font-semibold rounded-full px-8 py-4 hover:bg-[#9AE65D] hover:scale-105 transition-all duration-300 text-sm mt-2">
+        Join the waitlist
+      </button>
     </form>
-
-    <div id="waitlist-success" class="hidden text-center py-6">
-      <div class="w-12 h-12 rounded-full bg-[#85CB33]/10 border border-[#85CB33]/30 flex items-center justify-center mx-auto mb-4">
-        <svg class="w-6 h-6 text-[#85CB33]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-      </div>
-      <p class="font-display font-bold text-[#EFFFC8] text-lg mb-1">You're on the list!</p>
-      <p class="text-[#EFFFC8]/50 text-sm">We'll reach out personally.</p>
-    </div>
   </div>
 
   <p class="reveal reveal-up text-[#EFFFC8]/30 text-sm mt-6" data-delay="450">No spam. We'll never share your email.</p>
 </div>
 </section>
 
+{{-- ── SUCCESS POPUP MODAL ── --}}
+<div id="waitlist-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-6" aria-modal="true" role="dialog">
+  {{-- Backdrop --}}
+  <div id="modal-backdrop" class="absolute inset-0 bg-[#100B00]/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+  {{-- Card --}}
+  <div id="modal-card" class="relative max-w-md w-full bg-[#181308] border border-[#EFFFC8]/15 rounded-3xl p-10 text-center shadow-2xl
+       translate-y-6 opacity-0 transition-all duration-500 ease-out">
+
+    {{-- Close --}}
+    <button id="modal-close" onclick="closeWaitlistModal()"
+      class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-[#EFFFC8]/30
+             hover:text-[#EFFFC8] hover:bg-[#EFFFC8]/10 transition-all duration-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+
+    {{-- Check icon --}}
+    <div class="w-16 h-16 rounded-full bg-[#85CB33]/10 border border-[#85CB33]/30 flex items-center justify-center mx-auto mb-6">
+      <svg class="w-8 h-8 text-[#85CB33]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+
+    {{-- Brand --}}
+    <p class="text-xs font-semibold tracking-[0.25em] uppercase text-[#85CB33] mb-4">Apex Hire</p>
+
+    {{-- Headline --}}
+    <h2 class="font-display font-bold text-3xl text-[#EFFFC8] leading-tight tracking-tight mb-3">
+      You're on the list.
+    </h2>
+    <p class="text-[#EFFFC8]/60 text-base leading-relaxed mb-8">
+      We'll reach out personally when the network opens.<br>Keep an eye on your inbox.
+    </p>
+
+    {{-- Dismiss --}}
+    <button onclick="closeWaitlistModal()"
+      class="bg-[#85CB33] text-[#100B00] font-semibold rounded-full px-8 py-3.5 text-sm
+             hover:bg-[#9AE65D] hover:scale-105 transition-all duration-300">
+      Got it — back to the page
+    </button>
+
+    {{-- Footnote --}}
+    <p class="text-[#EFFFC8]/25 text-xs mt-6">No spam. We'll never share your email.</p>
+  </div>
+</div>
+
 <script>
-function selectRole(el) {
-  document.querySelectorAll('.role-btn').forEach(btn => {
-    btn.classList.remove('bg-[#85CB33]', 'text-[#100B00]', 'border-[#85CB33]', 'font-semibold');
-    btn.classList.add('border-[#EFFFC8]/20', 'text-[#EFFFC8]/70');
-  });
-  el.classList.remove('border-[#EFFFC8]/20', 'text-[#EFFFC8]/70');
-  el.classList.add('bg-[#85CB33]', 'text-[#100B00]', 'border-[#85CB33]', 'font-semibold');
+const waitlistForm   = document.getElementById('waitlist-form');
+const submitBtn      = document.getElementById('waitlist-submit');
+const errorBox       = document.getElementById('waitlist-error');
+const modal          = document.getElementById('waitlist-modal');
+const modalBackdrop  = document.getElementById('modal-backdrop');
+const modalCard      = document.getElementById('modal-card');
+
+/* ── Submit via fetch (AJAX) ── */
+waitlistForm.addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  /* Loading state */
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Joining…';
+  errorBox.classList.add('hidden');
+
+  const payload = new FormData(waitlistForm);
+
+  try {
+    const res = await fetch('{{ route('waitlist.store') }}', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: payload,
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      openWaitlistModal();
+      waitlistForm.reset();
+    } else {
+      // Laravel 422 returns { errors: { field: ['msg', ...] } }
+      let msg = 'Something went wrong. Please try again.';
+      if (data.errors) {
+        const firstField = Object.values(data.errors)[0];
+        msg = Array.isArray(firstField) ? firstField[0] : firstField;
+      } else if (data.message) {
+        msg = data.message;
+      }
+      showError(msg);
+    }
+  } catch (err) {
+    showError('Network error. Please check your connection and try again.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Join the waitlist';
+  }
+});
+
+function showError(msg) {
+  errorBox.textContent = msg;
+  errorBox.classList.remove('hidden');
 }
 
-function handleWaitlist(e) {
-  e.preventDefault();
-  document.getElementById('waitlist-form').classList.add('hidden');
-  document.getElementById('waitlist-success').classList.remove('hidden');
+/* ── Modal helpers ── */
+function openWaitlistModal() {
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  // Trigger transitions on next frame
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      modalBackdrop.classList.remove('opacity-0');
+      modalBackdrop.classList.add('opacity-100');
+      modalCard.classList.remove('translate-y-6', 'opacity-0');
+      modalCard.classList.add('translate-y-0', 'opacity-100');
+    });
+  });
 }
+
+function closeWaitlistModal() {
+  modalBackdrop.classList.remove('opacity-100');
+  modalBackdrop.classList.add('opacity-0');
+  modalCard.classList.remove('translate-y-0', 'opacity-100');
+  modalCard.classList.add('translate-y-6', 'opacity-0');
+  setTimeout(() => {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }, 350);
+}
+
+/* ── Close on backdrop click ── */
+document.getElementById('modal-backdrop').addEventListener('click', closeWaitlistModal);
+
+/* ── Close on Escape key ── */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeWaitlistModal();
+});
 </script>
 @endsection

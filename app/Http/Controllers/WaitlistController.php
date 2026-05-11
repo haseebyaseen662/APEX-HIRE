@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WaitlistRequest;
-use App\Events\WaitlistEvent;
 use App\Models\Waitlist;
+use App\Events\WaitlistJoinedEvent;
 
 class WaitlistController extends Controller
 {
     public function store(WaitlistRequest $request)
     {
-    $validated = $request->validated();
+        $validated = $request->validated();
+        $waitlist  = Waitlist::create($validated);
 
-    Waitlist::create($validated);
+        WaitlistJoinedEvent::dispatch($waitlist);
 
-    event(new WaitlistEvent($validated));
-
-    return back()->with('success', 'You are now on the waitlist!');
+        return response()->json(['success' => true]);
     }
 }
