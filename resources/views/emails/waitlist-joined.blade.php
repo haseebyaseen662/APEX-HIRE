@@ -39,7 +39,7 @@
                             <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
                                 <tr>
                                     <td align="center" style="padding-bottom: 32px;">
-                                        <img src="{{ asset('assets/images/check.svg') }}" alt="✓" style="display:block; border:0; outline:none;">
+                                        <img src="{{ asset('assets/images/check.svg') }}" width="72" height="72" alt="checkmark" style="display:block; border:0; outline:none;">
                                     </td>
                                 </tr>
                             </table>
